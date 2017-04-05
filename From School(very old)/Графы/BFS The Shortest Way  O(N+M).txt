@@ -1,0 +1,18 @@
+void bfs(int v) //BFS: The Shortest Way  O(N+M)
+{
+	queue <int> q; 
+	q.push(v); 
+	u[v]=1;
+
+	while(!q.empty())
+	{
+		int x=q.front();
+
+		for (int i=0; i<g[x].size(); i++)
+			if (!u[g[x][i]])
+			{
+				q.push(g[x][i]);
+				u[g[x][i]]=u[x]+1;
+			}
+	}
+}

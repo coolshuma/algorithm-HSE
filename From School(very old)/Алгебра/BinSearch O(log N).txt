@@ -1,0 +1,66 @@
+int a[100];
+
+int binf(int x)//BinSearch O(log N)
+{
+	int l=0,r=n;
+
+	if (x>a[n-1])
+		return -1;
+
+	if (x<a[0])
+		return -1;
+
+	int mid;
+
+	while (l<r)
+	{
+		mid=(l+r)/2;
+
+		if (x<a[mid])
+			r=mid;
+		if (x>a[mid])
+			l=mid+1;
+
+		if (x==a[mid])
+			return mid;
+	}
+
+	if (x!=a[mid])
+		return -1;
+	else
+		return mid;
+}
+
+
+#include <iostream>
+
+const  long long INF = 10000000009;
+
+using namespace std;
+
+long long binary_search(long long left, long long right, long long first_print,
+                        long long second_print, long long number_of_copies) {
+    long long middle;
+    while (left < right) {
+        middle = (left + right) / 2;
+        long long last_time = middle - min(first_print, second_print);
+        long long current_copies = last_time / first_print + last_time / second_print + 1;
+        if (last_time >= 0 && current_copies >= number_of_copies) {
+            right = middle;
+        } else {
+            left = middle + 1;
+        }
+    }
+    return right;
+}
+
+int main() {
+    //freopen("in", "r", stdin);
+    //freopen("out", "w", stdout);
+
+    long long number_of_copies, first_print, second_print;
+    cin >> number_of_copies >> first_print >> second_print;
+    cout << binary_search(1, INF, first_print, second_print, number_of_copies);
+}
+
+

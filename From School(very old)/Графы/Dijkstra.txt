@@ -1,0 +1,51 @@
+vector <int> g[100];
+int u[100],d[100],p[100];
+
+int n;
+
+set <pii> h;
+
+void djk(int v)  //Dijkstra: without struct and way =( O(N^2+M)
+{
+	ms(u);
+	msx(d,63);
+	u[v]=1;
+	d[v]=0;
+
+	int i,j,mn;
+
+	for (i=0; i<n; i++)
+	{
+		for (j=0; j<n; j++)
+			if (!u[j] && ((mn<0) || (d[j]<d[mn])))
+				mn=j;
+
+		for (j=0; j<g[mn].size(); j++)
+			if (!u[g[mn][j].first])
+				remin(d[g[mn][j].first],d[mn]+g[mn][j].second);
+
+		u[mn]=1;
+	}
+}
+
+void djk(int v) //Dijkstra: with struct and way  O(M*log N)
+{
+	msx(d,63);
+	d[v]=0;
+	
+	h.insert(mp(d[v],v));
+
+	while (!h.empty())
+	{
+		int mn=h.begin()->second;
+
+		for (int j=0; j<g[mn].size(); j++)
+			if (d[mn]+g[mn][j].second<d[g[mn][j].first])
+			{
+				h.erase(mp(d[g[mn][j].first],g[mn][j].first));
+				d[g[mn][j].first]=d[mn]+g[mn][j].second;
+				p[g[mn][j].first]=mn;
+				h.insert(mp(d[g[mn][j].first],g[mn][j].first));
+			}
+	}
+}

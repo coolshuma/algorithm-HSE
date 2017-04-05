@@ -1,0 +1,18 @@
+int pr[100];
+
+void pref(string s)//PreficksFunction O(N)
+{
+	pr[0]=0;
+
+	int l=s.length();
+
+	for (int i=1; i<l; i++)
+	{
+		int j=pr[i-1];
+		while ((s[j]!=s[i]) && (j>0))
+			j--;
+
+		if (s[i]==s[j])
+			pr[i]=j;
+	}
+}

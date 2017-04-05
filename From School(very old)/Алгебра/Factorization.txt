@@ -1,0 +1,15 @@
+vector <int> v; // Factorization
+void factorization(int n) 
+{
+	for (int i=2; i*i<=n; i++)
+	{
+		while (n%i==0)
+		{
+			v.pb(i);
+			n/=i;ы
+		}
+	}
+	
+	if (n!=1)
+		v.pb(n);
+}

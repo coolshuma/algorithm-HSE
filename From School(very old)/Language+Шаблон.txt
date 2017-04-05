@@ -1,0 +1,68 @@
+Шаблон:
+#include "stdafx.h"
+#include <iostream>
+#include <cstdio>    
+#include <memory.h>
+#include <cmath>
+#include <algorithm>
+#include <iomanip>
+#include <vector>
+#include <map>    
+#include <queue>      
+#include <string>
+#include <set>
+#include <stack>
+                                  
+#define remin(a,b) a=min(a,b)
+#define pb push_back
+#define mp make_pair
+#define pii pair<int,int>
+#define ll long long
+#define sqr(a) ((a)*(a))  
+#define ms(a) memset((a),0,sizeof (a))
+#define msx(a,x) memset((a),(x),sizeof (a))
+#define INF 1000000009
+#define PI 3.141592653589
+#define M 100007
+#define EPS 0.000000001
+#define base 1000000000	
+#define P 269
+                          
+using namespace std;
+
+int main ()
+{
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+
+    return 0;
+}
+
+---------------------------------------------------------------
+
+Теория
+*Функции inline - компилятор заменяет вызов функции кодом из нее
+
+---------------------------------------------------------------
+
+a=(lower_bound(v.begin(),v.end(),a)-v.begin());//Возвращает индекс первого элемента массива, больше либо равного а
+//Может стать больше N, если то, что мы ищем, больше самого большого элемента массива.
+
+a=(upper_bound(v.begin(),v.end(),)-v.begin());//Возвращает индекс первого элемента массива, строго большего, чем а
+//Может стать больше N, если то, что мы ищем, больше самого большого элемента массива.
+
+---------------------------------------------------------------
+
+Примеры cmp:
+bool cmp
+{
+	return a<b; //Возрастание
+	return a>b; //Убывание
+	return abs(a)<abs(b); //По модулю в возрастающем
+	return (abs(a)==abs(b) && (a>b)); //Сначала 1, потом -1
+}
+
+---------------------------------------------------------------
+
+for (map <int,int>:: iterator it=m.begin(); it!=m.end(); it++) //Проход итератором по структуре
+		cout << it->first << ' ' << it->second << endl;

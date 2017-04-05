@@ -1,0 +1,106 @@
+int n,ptr[300005],lev[300005],u[300005]; //MaxFlow: Dinic O(N^2*M)
+
+void bfs(int s)
+{
+	ms(u);
+	queue <int> q; 
+	q.push(s); u[s]=1;
+
+	lev[s]=0;
+
+	while (!q.empty())
+	{
+		int v=q.front(); q.pop();
+
+		for (int i=0; i<g[v].size(); i++)
+		{
+			int id=g[v][i],to=ve[id].v;
+
+			if ((!u[to]) && (ve[id].c>ve[id].f))
+			{
+				q.push(to);
+				lev[to]=lev[v]+1;
+				u[to]=1;
+			}
+		}
+	}
+}
+
+int dfs(int v,ll flow)
+{
+    if (v==n-1)
+        return flow;
+    if (flow<=0)
+        return 0;
+
+    for (; ptr[v]<g[v].size(); ptr[v]++)
+    {
+        int id=g[v][ptr[v]],to=ve[id].v;
+		if (lev[to]!=lev[v]+1)
+			continue;
+        ll f=dfs(to,min(flow,ve[id].c-ve[id].f));
+        if (f>0)
+        {
+			ve[id].f+=f;
+            ve[id^1].f-=f;
+			return f;
+        }
+    }
+	return 0;
+}
+
+ll FF()
+{
+    ll t=0,r=0; ms(ptr);
+	while (1)
+	{
+		msx(lev,-1);
+		bfs(0);
+		if (lev[n-1]<0)
+			break;
+		do
+		{
+			ms(ptr);
+			r+=t;
+		}while(t=dfs(0,INF));
+	}
+
+    return r;
+}
+
+
+int main()
+{
+    //freopen("input.txt","r", stdin);
+    //freopen("output.txt","w", stdout);
+
+    int k,i,j;
+
+    cin >> n >> k;
+
+    for (i=0; i<k; i++) //Reading for MaxFlow
+    {
+        ll a,b,c;
+        cin >> a >> b >> c;
+        a--; b--;
+        edge ae,be;
+        ae.u=a;
+		ae.v=b;
+		ae.c=c;
+		ae.f=0;
+        be.u=b;
+		be.v=a;
+		be.c=c;
+		be.f=0;
+        g[a].pb(ve.size());
+        ve.pb(ae);
+        g[b].pb(ve.size());
+        ve.pb (be);
+    }
+
+    ll ans=PPF(0,n-1);
+
+    cout << ans;
+
+    return 0;
+}

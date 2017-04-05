@@ -1,0 +1,83 @@
+struct pt   //Convex Hull
+{
+    int x,y;
+};
+ 
+bool cmp(pt a, pt b)
+{
+    return ((a.x<b.x) || ((a.x == b.x) && (a.y<b.y)));
+}
+ 
+double len(double x1, double y1, double x2, double y2)//Length
+{
+    return sqrt((sqr(x2-x1)+sqr(y2-y1)));
+}
+  
+bool pr(int x1, int y1, int x2, int y2)//Wedge Product
+{
+    return (x1*y2-x2*y1)>0;
+}
+  
+bool SP(pt a, pt b, pt c)// Right Turn?
+{
+    return (b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x)<0;
+}
+  
+int main()
+{
+    freopen("input.txt","r", stdin);
+    freopen("output.txt","w", stdout);
+  
+   vector <pt> a,up,down;
+  
+    int n,i,j;
+ 
+    cin >> n;
+ 
+    a.resize(n);
+  
+    for (i=0; i<n; i++)
+        cin >> a[i].x >> a[i].y;
+ 
+    sort(a.begin(),a.end(),cmp);
+ 
+    pt p1=a[0],p2=a[n-1];
+  
+    up.pb(p1);
+    down.pb(p1);
+  
+    for (i=1; i<n; i++)
+    {
+        if ((i==a.size()-1) || (SP(p1,a[i],p2)))
+        {
+            while ((up.size()>=2) && (!SP(up[up.size()-2], up[up.size()-1], a[i])))
+                up.pop_back();
+            up.pb(a[i]);
+        }
+ 
+        if ((i==a.size()-1) || (!SP(p1,a[i],p2)))
+        {
+            while ((down.size()>=2) && (SP(down[down.size()-2], down[down.size()-1], a[i])))
+                down.pop_back();
+            down.pb(a[i]);
+        }
+    }
+   
+    a.clear();
+ 
+    for (size_t i=0; i<up.size(); ++i)
+        a.push_back (up[i]);
+    for (size_t i=down.size()-2; i>0; --i)
+        a.push_back (down[i]);
+ 
+    double s=0;
+  
+    for (i=1; i<a.size(); i++)
+    {
+        s+=len(a[i-1].x, a[i-1].y, a[i].x, a[i].y);
+    }
+  
+    s+=len(a[a.size()-1].x, a[a.size()-1].y, a[0].x, a[0].y);
+	
+	return 0;
+}

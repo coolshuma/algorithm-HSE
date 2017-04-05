@@ -1,0 +1,15 @@
+ll binpow(ll a, ll s) //BinPow
+{
+	int t=1;
+
+	while (s)
+	{
+		if (s%2)
+			t*=a;
+
+		a*=a;
+		s/=2;	
+	}
+
+	return t;
+}

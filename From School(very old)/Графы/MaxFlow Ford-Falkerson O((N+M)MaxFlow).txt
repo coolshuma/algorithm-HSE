@@ -1,0 +1,49 @@
+struct edge
+{
+    ll u,v,c,f;
+};
+
+vector <edge> ve;
+
+vector <int> g[155];
+
+int n,u[155];
+
+int dfs(int v,ll flow) //MaxFlow: Ford-Falkerson O((N+M)*MaxFlow)
+{
+    if (v==n-1)
+        return flow;
+    if (flow<=0)
+        return 0;
+
+    u[v]=1;
+
+    for (int i=0; i<g[v].size(); i++)
+    {
+        int id=g[v][i],to=ve[id].v;
+        if (!u[to])
+        {
+            ll f=dfs(to,min(flow,ve[id].c-ve[id].f));
+            if (f>0)
+            {
+                ve[id].f+=f;
+                ve[id^1].f-=f;
+                return f;
+            }
+        }
+    }
+   return 0;
+}
+
+ll FF()
+{
+    ll t=0,r=0; ms(u);
+
+    do
+    {
+        ms(u);
+        r+=t;
+    }while(t=dfs(0,INF));
+
+    return r;
+}

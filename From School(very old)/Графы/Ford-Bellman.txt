@@ -1,0 +1,68 @@
+struct edge //Ford-Bellman
+{
+    int a,b,c;
+};
+ 
+vector <edge> e;
+ 
+int d[2005],d2[2005],p[2005];
+ 
+int main ()
+{
+    freopen("input.txt","r",stdin);
+    freopen("output.txt","w",stdout);
+ 
+    int i,j,n,m;
+ 
+    cin >> n >> m;
+ 
+    for (i=0; i<m; i++)
+    {
+        int a,b,c;
+        cin >> a >> b >> c;
+        a--; b--;
+ 
+        c=-c;
+ 
+        edge t={a,b,c};
+ 
+        e.pb(t);
+    }
+ 
+    for (i=0; i<n; i++)
+    {
+        p[i]=i;
+        d[i]=INF;
+    }
+ 
+    d[0]=0;
+    int v=-1;
+ 
+    for (i=0; i<n; i++)
+    {
+        v=-1;
+        for (j=0; j<m; j++)
+            if (d[e[j].a]<INF)
+            {
+                if (d[e[j].a]+e[j].c<d[e[j].b])
+                {
+                    d[e[j].b]=max(-INF,d[e[j].a]+e[j].c);  
+                    p[e[j].b]=e[j].a;
+                    v=e[j].b;
+                }
+            }
+    }
+ 
+
+    cout << d[n-1]; // Answer without NC
+	
+	if (v!=-1)
+		cout << "This Graph have NC"; 
+	
+    int y=v;
+ 
+    for (i=0; i<n; i++)
+        y=p[y];
+ 
+    return 0;
+}

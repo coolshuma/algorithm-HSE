@@ -1,0 +1,53 @@
+int h[300000];
+ll v[300000];
+
+ll PPF(int s,int T) //MaxFlow: Push–relabel  O(N^3)
+{
+	ms(h); ms(v); 
+	h[s]=n;
+
+	for (int i=0; i<g[s].size(); i++)
+		v[ve[g[s][i]].v]=ve[g[s][i]].c;
+
+	for (;;)
+	{
+		int u=-1,i;
+
+		int mn=INF;
+
+		for (i=0; i<n; i++)
+			if (i!=s && i!=T && v[i])
+			{
+				u=i;
+				break;
+			}
+
+		if (u<0)
+			break;
+
+		for (i=0; i<g[u].size(); i++)
+		{
+			int id=g[u][i]; int to=ve[id].v;
+
+			if ((h[to]>=h[u]) && (v[id].c>ve[id].f))
+				mn=min(mn,h[to]);
+
+			if (h[to]+1==h[u])
+			{
+				ll t=min(v[u],ve[id].c-ve[id].f);
+				if (t)
+				{
+					v[u]-=t;
+					v[to]+=t;
+					ve[id].f+=t;
+					ve[id^1].f-=t;
+					break;
+				}
+			}
+		}
+		if (i==g[u].size())
+			h[u]=mn+1;
+	}
+
+	return v[T];
+}

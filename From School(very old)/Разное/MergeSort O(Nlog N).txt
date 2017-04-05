@@ -1,0 +1,34 @@
+void mrg(int l, int r, int l2, int r2)//MergeSort O(N*log N)
+{
+	vector <int> b(r2-l+1);
+	int k=0;
+	int bg=l;
+	while ((l<=r) && (l2<=r2))
+	{
+		if (v[l]<v[l2])
+			b[k++]=v[l++];
+		else
+			b[k++]=v[l2++];
+	}
+
+	while (l<=r)
+		b[k++]=v[l++];
+
+	while (l2<=r2)
+		b[k++]=v[l2++];
+
+	copy(b.begin(),b.end(),v.begin()+bg);
+	b.clear();
+}
+
+void mrgsort(int l,int r)
+{
+	if (l==r)
+		return;
+
+	int m=(l+r)/2;
+
+	mrgsort(l,m);
+	mrgsort(m+1,r);
+	mrg(l,m,m+1,r);
+}

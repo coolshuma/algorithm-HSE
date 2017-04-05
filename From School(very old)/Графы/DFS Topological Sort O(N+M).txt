@@ -1,0 +1,16 @@
+vector <int> ans;
+
+void dfs(int v)  //DFS: Topological Sort O(N+M)
+{
+	u[v]=1;
+
+	int i;
+
+	for (i=0; i<g[v].size(); i++)
+		if (!u[g[v][i]])
+		{
+			dfs(g[v][i]);	
+			ans.pb(g[v][i]);
+		}
+
+}

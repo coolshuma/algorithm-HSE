@@ -1,0 +1,75 @@
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <unordered_map>
+
+const int N = 3;
+const int SIZE_OUT = 10;
+
+using namespace std;
+
+int main() {
+
+    freopen("in", "r", stdin);
+    freopen("out", "w", stdout);
+
+    unordered_map<string, map<char, int>> cont;
+
+    string text;
+
+    getline(cin, text);
+
+    int l = text.length();
+
+    for (int i = 0; i <= l - N; ++i) {
+        string cur;
+        cur.append(text.begin() + i, text.begin() + i + N - 1);
+        ++cont[cur][text[i + N - 1]];
+    }
+
+    //cout << cont["ab"]['r'];
+
+    map<string, vector<double>> count;
+    map<string, vector<char>> letter;
+
+    for (auto i: cont)
+        for (auto j: cont[i.first])
+        {
+            count[i.first].push_back(j.second);
+            letter[i.first].push_back(j.first);
+            //cout << i.first << ' ' << j.first << ' ' << j.second << endl;
+        }
+
+    string beg;
+    cin >> beg;
+
+    random_device rd;
+    mt19937 gen(rd());
+
+    string cur;
+    cur.append(beg.begin(), beg.end());
+    for (int i = N - 1; i < SIZE_OUT; ++i)
+    {
+        discrete_distribution<> d(count[cur].begin(), count[cur].end());
+        int it = d(gen);
+        beg.push_back(letter[cur][it]);
+        cur.push_back(letter[cur][it]);
+        cur.erase(cur.begin());
+    }
+
+    cout << beg;
+
+
+    int t = 56;
+
+    for (int i = 1; i < 28; ++i)
+    {
+        t *= 56;
+        t %= 29;
+    }
+
+    cout << t;
+
+
+    return 0;
+}
